@@ -1,7 +1,5 @@
 # HIT - Compilation Principle
 
-# HIT-DSA
-
 2024春 - 哈尔滨工业大学编译原理实验 & 报告
 
 ### [lab 1：词法分析与语法分析](https://github.com/hacheyz/HIT-CopilationPrinciple/tree/main/lab1)
