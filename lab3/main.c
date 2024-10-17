@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include "tree.h"
+#include "syntax.tab.h"
+#include "semantic.h"
+#include "translate.h"
+
+extern TreeNode *root;
+extern void yyerror(char *s);
+extern void yyrestart(FILE *f);
+extern int yyparse();
+
+int lexicalError = 0;
+int syntaxError = 0;
+
+int main(int argc, char **argv)
+{
+	if (argc <= 1) return 1;
+	FILE *f = fopen(argv[1], "r");
+	if (!f) {
+		perror(argv[1]);
+		return 1;
+	}
+	yyrestart(f);
+	yyparse();
+
+	SymbolTable st;
+	initSymbolTable(&st);
+	traverseTree(root, &st);
+
+	IrTable irt;
+	irt.num = 0;
+	translate(root, &st, &irt);
+	saveIrs(&irt, argv[2]);
+
+	return 0;
+}
